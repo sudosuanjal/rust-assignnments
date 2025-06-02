@@ -1,5 +1,6 @@
 use std::io;
 
+#[derive(Debug)]
 struct Student{
     name: String,
     age: u64,
@@ -7,6 +8,8 @@ struct Student{
 }
 
 fn main() {
+    
+    let mut students : Vec<Student> = Vec::new();
     println!("welcome to student management system!");
     loop{
         println!("enter the option number");
@@ -21,13 +24,15 @@ fn main() {
         
         match choice.trim() {
             "1" => {
-                println!("you entered one");
+                let student = create_student();
+                students.push(student);
             }
             "2" => {
                 println!("you entered two");
             }
             "3" => {
                 println!("you entered three");
+               println!("{:#?}", students);    
             }
             "4" => {
                 println!("you entered quit");
@@ -42,7 +47,7 @@ fn main() {
 
 }
 
-fn create_student () -> Student{
+fn create_student() -> Student{
     let mut name = String::new();
     let mut age = String::new();
     let mut grade = String::new();
@@ -57,7 +62,7 @@ fn create_student () -> Student{
     io::stdin().read_line(&mut grade).expect("error while reading the grade");
     
     let age : u64 = age.trim().parse().expect("error while parsing");
-    let grade : char = age.trim().chars().next().expect("error while parsing");
+    let grade : char = grade.trim().chars().next().expect("error while parsing");
     
     Student{
         name: name.trim().to_string(),
