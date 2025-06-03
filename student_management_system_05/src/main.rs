@@ -14,7 +14,7 @@ fn main() {
     loop{
         println!("enter the option number");
         println!("1. Enter student details to the system");
-        println!("2. Update student details");
+        println!("2. Update/Delete student details");
         println!("3. Print Student");
         println!("4. Quit");
         
@@ -80,7 +80,7 @@ fn display_students(students:&mut Vec<Student>){
 
 fn update_student(students:&mut Vec<Student>){
     display_students(students);
-    println!("enter the name of the student you want to edit");
+    println!("enter the name of the student you want to edit/delete");
     let mut stud_name = String::new();
     io::stdin().read_line(&mut stud_name).expect("error while reading name");
     let stud_name = stud_name.trim();
@@ -90,6 +90,38 @@ fn update_student(students:&mut Vec<Student>){
     match stud_index{
         Some(i) => {
             println!("student with name: {} found",students[i].name);
+            println!("what you want to edit (1.NAME -- 2.AGE -- 3.GRADE -- 4.DELETE STUDENT");
+            let mut choice = String::new();
+            io::stdin().read_line(&mut choice).expect("error while reading the input");
+            match choice.trim(){
+                "1" => {
+                    let mut new_name = String::new();
+                    println!("enter the new name:");
+                    io::stdin().read_line(&mut new_name).expect("error while reading the new name");
+                    let new_name = new_name.trim();
+                    students[i].name = new_name.to_string();
+                }
+                "2" => {
+                    println!("enter the new age");
+                    let mut new_age = String::new();
+                    io::stdin().read_line(&mut new_age).expect("error while reading new age");
+                    let new_age : u64 = new_age.trim().parse().expect("error while parsing the new age");
+                    students[i].age = new_age;
+                }
+                "3" =>  {
+                    let mut new_grade = String::new();
+                    println!("enter the new grade");
+                    io::stdin().read_line(&mut new_grade).expect("error while reading the new grade");
+                    let new_grade = new_grade.trim();
+                    students[i].grade = new_grade.chars().next().expect("error while parsing to char");
+                }
+                "4" =>{
+                    students.remove(i);
+                    println!("student with name: {} deleted from the system", stud_name);
+                }
+                
+                _ => println!("invalid input"),
+            }
         }
         None => println!("student with name: {} not found", stud_name),
     }
